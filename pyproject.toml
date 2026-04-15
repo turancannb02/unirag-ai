@@ -1,0 +1,28 @@
+[project]
+name = "uniadmin-ai"
+version = "0.1.0"
+description = "Administrative RAG case-study starter for student services queries"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi==0.115.0",
+  "uvicorn==0.30.6",
+  "pydantic==2.9.2",
+  "python-dotenv==1.0.1",
+  "pypdf==5.0.1",
+  "pandas==2.2.3",
+  "numpy==2.1.2",
+  "langchain==0.3.2",
+  "langchain-community==0.3.1",
+  "langchain-openai==0.2.2",
+  "faiss-cpu==1.8.0.post1",
+  "sentence-transformers==3.1.1",
+  "tqdm==4.66.5",
+]
+
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/unirag"]
