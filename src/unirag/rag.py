@@ -1,6 +1,6 @@
 from typing import Dict, List, Tuple
 
-from langchain.schema import Document
+from langchain_core.documents import Document
 
 from unirag.config import settings
 from unirag.llm import generate_answer

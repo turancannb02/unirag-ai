@@ -7,3 +7,7 @@ __pycache__/
 /data/processed/vectorstore/
 /data/reports/*.csv
 /data/reports/*.json
+.history/__pycache__/
+*.pyc
+.python-version
+data/processed/

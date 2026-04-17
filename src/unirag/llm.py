@@ -1,7 +1,7 @@
 from typing import List
 
-from langchain.schema import Document
-from langchain_openai import ChatOpenAI
+from langchain_core.documents import Document
+from langchain_ollama import ChatOllama
 
 from unirag.config import settings
 
@@ -46,31 +46,20 @@ def _fallback_extractive_answer(question: str, docs: List[Document]) -> str:
 def generate_answer(question: str, docs: List[Document]) -> str:
     provider = settings.llm_provider.lower()
 
-    if provider != "openai":
-        return _fallback_extractive_answer(question, docs)
+    if provider == "ollama":
+        # Use Ollama LLM
+        llm = ChatOllama(model=settings.llm_model, base_url=settings.ollama_base_url, temperature=0)
+        context = _format_context(docs)
+        user_prompt = (
+            f"Question:\n{question}\n\n"
+            f"Context:\n{context}\n\n"
+            "Return a concise answer in bullet points and include concrete next steps."
+        )
+        response = llm.invoke([
+            ("system", SYSTEM_PROMPT),
+            ("user", user_prompt),
+        ])
+        return response.content
 
-    if not settings.openai_api_key:
-        return _fallback_extractive_answer(question, docs)
-
-    kwargs = {
-        "model": settings.openai_model,
-        "api_key": settings.openai_api_key,
-        "temperature": 0,
-    }
-    if settings.openai_base_url:
-        kwargs["base_url"] = settings.openai_base_url
-
-    llm = ChatOpenAI(**kwargs)
-
-    context = _format_context(docs)
-    user_prompt = (
-        f"Question:\n{question}\n\n"
-        f"Context:\n{context}\n\n"
-        "Return a concise answer in bullet points and include concrete next steps."
-    )
-
-    response = llm.invoke([
-        ("system", SYSTEM_PROMPT),
-        ("user", user_prompt),
-    ])
-    return response.content
+    # Fallback to extractive mode for unknown providers
+    return _fallback_extractive_answer(question, docs)

@@ -8,13 +8,14 @@ load_dotenv()
 
 @dataclass
 class Settings:
-    llm_provider: str = os.getenv("LLM_PROVIDER", "openai")
-    openai_api_key: str = os.getenv("OPENAI_API_KEY", "")
-    openai_model: str = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-    openai_base_url: str = os.getenv("OPENAI_BASE_URL", "")
+    # LLM provider and model
+    llm_provider: str = os.getenv("LLM_PROVIDER", "ollama")
+    llm_model: str = os.getenv("LLM_MODEL", "nemotron-3-nano:30b-cloud")
+    ollama_base_url: str = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 
-    embeddings_provider: str = os.getenv("EMBEDDINGS_PROVIDER", "hf")
-    embeddings_model: str = os.getenv("EMBEDDINGS_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
+    # Embeddings provider and model
+    embeddings_provider: str = os.getenv("EMBEDDINGS_PROVIDER", "ollama")
+    embeddings_model: str = os.getenv("EMBEDDINGS_MODEL", "mxbai-embed-large")
 
     retrieval_k: int = int(os.getenv("RETRIEVAL_K", "6"))
     chunk_size: int = int(os.getenv("CHUNK_SIZE", "900"))
