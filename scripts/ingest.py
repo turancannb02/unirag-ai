@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 from pathlib import Path
+import sys, os
+
+# Add src directory to sys.path so that unirag package can be imported
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from unirag.config import settings
 from unirag.loader import chunk_documents, load_pdf_documents
