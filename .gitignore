@@ -11,3 +11,5 @@ __pycache__/
 *.pyc
 .python-version
 data/processed/
+data/raw_pdfs/*
+.history/
